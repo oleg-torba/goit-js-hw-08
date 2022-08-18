@@ -32,7 +32,7 @@ function onFormSubmit(evt) {
   localStorage.removeItem('feedback-form-state');
 }
 
-const formData = JSON.parse(localStorage.getItem('feedback-form-state')) || {};
+const formData = JSON.parse(localStorage.getItem('feedback-form-state')){};
 form.addEventListener('input', e => {
   formData[e.target.name] = e.target.value;
 });
