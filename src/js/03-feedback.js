@@ -1,38 +1,37 @@
 import throttle from 'lodash.throttle';
 
 const form = document.querySelector('.feedback-form');
-const textArea = document.querySelector('.feedback-form textarea');
-const email = document.querySelector('.feedback-form input');
 
+const STORAGE_KEY = 'feedback-form-state';
+
+form.addEventListener('input', throttle(onTextAreaInput, 500));
 form.addEventListener('submit', onFormSubmit);
-textArea.addEventListener('input', throttle(onTextAreaInput, 1000));
-email.addEventListener('input', throttle(onTextAreaInput, 1000));
-populateTextArea();
 
-function onTextAreaInput(evt) {
-  const message = evt.target.value;
-  localStorage.setItem('feedback-form-state', message);
-  console.log(message);
+let formData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+
+function onTextAreaInput(e) {
+  formData[e.target.name] = e.target.value;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
 }
 
-function onFormSubmit(evt) {
-  evt.preventDefault();
-}
-
-function populateTextArea() {
-  const saveMessage = localStorage.getItem('feedback-from-state');
-  if (saveMessage) {
-    textArea.value = saveMessage;
+function onFormSubmit(e) {
+  e.preventDefault();
+  if (form.elements.email.value === '') {
+    alert('Заповніть поле "EMail"');
+  } else if (form.elements.message.value === '') {
+    alert('Заповніть поле "Message"');
+  } else {
+    console.log(formData);
+    localStorage.removeItem(STORAGE_KEY);
+    e.currentTarget.reset();
   }
 }
 
-function onFormSubmit(evt) {
-  evt.preventDefault();
-  evt.currentTarget.reset();
-  localStorage.removeItem('feedback-form-state');
+function getItemFromStorage() {
+  const storageData = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  if (storageData) {
+    form.elements.email.value = storageData.email || '';
+    form.elements.message.value = storageData.message || '';
+  }
 }
-
-const formData = JSON.parse(localStorage.getItem('feedback-form-state')){};
-form.addEventListener('input', e => {
-  formData[e.target.name] = e.target.value;
-});
+getItemFromStorage();
