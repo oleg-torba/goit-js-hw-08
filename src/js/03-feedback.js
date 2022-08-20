@@ -7,6 +7,10 @@ const STORAGE_KEY = 'feedback-form-state';
 form.addEventListener('input', throttle(onTextAreaInput, 500));
 form.addEventListener('submit', onFormSubmit);
 
+const formData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+
+getItemFromStorage();
+
 function onTextAreaInput(e) {
   formData[e.target.name] = e.target.value;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
@@ -20,8 +24,9 @@ function onFormSubmit(e) {
     alert('Заповніть поле "Message"');
   } else {
     console.log(formData);
-    localStorage.removeItem(STORAGE_KEY);
     e.currentTarget.reset();
+    localStorage.removeItem(STORAGE_KEY);
+
     formData = {};
   }
 }
@@ -33,6 +38,3 @@ function getItemFromStorage() {
     form.elements.message.value = storageData.message || '';
   }
 }
-const formData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-
-getItemFromStorage();
