@@ -12,10 +12,8 @@ function data({ seconds }) {
 
 player.on('timeupdate', throttle(data, 1000));
 
-const dataStorage = function () {
-  localStorage.getItem(STORAGE_KEY);
+const dataStorage = localStorage.getItem(STORAGE_KEY);
 
-  if (dataStorage) {
-    player.setCurrentTime(localStorage.getItem(STORAGE_KEY));
-  }
-};
+if (dataStorage) {
+  player.setCurrentTime(localStorage.getItem(STORAGE_KEY));
+}
