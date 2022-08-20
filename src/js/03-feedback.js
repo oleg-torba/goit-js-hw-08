@@ -7,6 +7,8 @@ const STORAGE_KEY = 'feedback-form-state';
 form.addEventListener('input', throttle(onTextAreaInput, 500));
 form.addEventListener('submit', onFormSubmit);
 
+let formData = JSON.parse(localStorage.getItem(STORAGE_KEY) || {});
+
 function onTextAreaInput(e) {
   formData[e.target.name] = e.target.value;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
@@ -33,4 +35,3 @@ function getItemFromStorage() {
   }
 }
 getItemFromStorage();
-let formData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
