@@ -12,8 +12,6 @@ function onTextAreaInput(e) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
 }
 
-let formData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-
 function onFormSubmit(e) {
   e.preventDefault();
   if (form.elements.email.value === '') {
@@ -35,3 +33,4 @@ function getItemFromStorage() {
   }
 }
 getItemFromStorage();
+let formData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
