@@ -6,14 +6,10 @@ const player = new vimeoPlayer(iframe);
 
 const STORAGE_KEY = 'videoplayer-current-time';
 
-function data({ seconds }) {
+function onPlay({ seconds }) {
   localStorage.setItem(STORAGE_KEY, seconds);
 }
 
-player.on('timeupdate', throttle(data, 1000));
+player.on('timeupdate', throttle(onPlay, 1000));
 
-const dataStorage = localStorage.getItem(STORAGE_KEY);
-
-if (dataStorage) {
-  player.setCurrentTime(localStorage.getItem(STORAGE_KEY));
-}
+player.setCurrentTime(localStorage.getItem(STORAGE_KEY));
